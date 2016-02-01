@@ -1,5 +1,10 @@
 scalaVersion := "2.11.7"
-
+javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
+    scalacOptions := Seq(
+      "-unchecked", "-deprecation", "-encoding", "utf8", "-feature",
+      "-language:existentials", "-language:implicitConversions",
+      "-language:reflectiveCalls", "-target:jvm-1.8"
+    )
 //resolvers += Resolver.bintrayRepo("scalawilliam", "actionfps")
 resolvers += Resolver.url("my", url("https://dl.bintray.com/scalawilliam/actionfps"))(Resolver.ivyStylePatterns)
 
