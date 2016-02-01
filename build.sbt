@@ -3,7 +3,7 @@ scalaVersion := "2.11.7"
 //resolvers += Resolver.bintrayRepo("scalawilliam", "actionfps")
 resolvers += Resolver.url("my", url("https://dl.bintray.com/scalawilliam/actionfps"))(Resolver.ivyStylePatterns)
 
-libraryDependencies += "com.actionfps" %% "accumulation" % "5.1-1-g8a46e56"
+libraryDependencies += "com.actionfps" %% "accumulation" % "5.2.0"
 
 run in Compile <<= (run in Compile).dependsOn(downloadAll)
 
