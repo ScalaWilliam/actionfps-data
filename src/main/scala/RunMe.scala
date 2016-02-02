@@ -14,6 +14,11 @@ gms.map(_.map).toList.groupBy(identity).mapValues(_.length)
 .toList.sortBy(_._2).takeRight(20)
 .foreach(println)
 
+  def mostPlayedUsers(): Unit =
+  gms.flatMap(_.teams).flatMap(_.players).flatMap(_.user).toList
+    .groupBy(identity).mapValues(_.length).toList.sortBy(_._2).takeRight(20).foreach(println)
+
 topMaps()
+  mostPlayedUsers()
 //.take(5).foreach(println)
 }
