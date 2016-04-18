@@ -8,7 +8,7 @@ javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
 //resolvers += Resolver.bintrayRepo("scalawilliam", "actionfps")
 resolvers += Resolver.url("my", url("https://dl.bintray.com/scalawilliam/actionfps"))(Resolver.ivyStylePatterns)
 
-libraryDependencies += "com.actionfps" %% "accumulation" % "5.2.0"
+libraryDependencies += "com.actionfps" %% "accumulation" % "5.3.0"
 
 run in Compile <<= (run in Compile).dependsOn(downloadAll)
 
