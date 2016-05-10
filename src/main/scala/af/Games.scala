@@ -1,5 +1,7 @@
 package af
 
+import java.time.ZonedDateTime
+
 import com.actionfps.gameparser.enrichers.JsonGame
 
 import scala.io.Source
@@ -28,6 +30,18 @@ object Games {
       case (source, iterator) =>
         try f(iterator)
         finally source.close()
+    }
+  }
+
+  object InPastMonth {
+    def iterate[T](f: Iterator[JsonGame] => T): T = {
+      val monthAgo = ZonedDateTime.now().minusMonths(1)
+      Games.iterate{ games =>
+        f {
+          games
+            .filter(_.endTime.isAfter(monthAgo))
+        }
+      }
     }
   }
 

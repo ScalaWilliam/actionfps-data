@@ -43,14 +43,29 @@ object RunMe extends App {
 
   def mostPlayedUnregisteredPlayersInPastMonth(): Unit = {
     println("Most played recent unregistered players")
-    Games.iterate { gms =>
-      val monthAgo = ZonedDateTime.now().minusMonths(1)
+    Games.InPastMonth.iterate { gms =>
       gms
-        .filter(_.endTime.isAfter(monthAgo))
         .flatMap(_.teams)
         .flatMap(_.players)
         .filter(_.user.isEmpty)
         .map(_.name)
+        .toList
+        .groupBy(identity)
+        .mapValues(_.length)
+        .toList
+        .sortBy(_._2)
+        .takeRight(20)
+        .foreach(println)
+    }
+  }
+
+  def mostPlayedCountriesRecently(): Unit = {
+    println("Most played countries recently")
+    Games.InPastMonth.iterate { gms =>
+      gms
+        .flatMap(_.teams)
+        .flatMap(_.players)
+        .flatMap(_.countryName)
         .toList
         .groupBy(identity)
         .mapValues(_.length)
@@ -66,5 +81,7 @@ object RunMe extends App {
   mostPlayedUsers()
   println("")
   mostPlayedUnregisteredPlayersInPastMonth()
+  println("")
+  mostPlayedCountriesRecently()
 
 }
