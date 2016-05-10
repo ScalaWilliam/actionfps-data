@@ -41,6 +41,9 @@ object ActiveClansComputation {
     */
   def mapReducely(): Unit = {
     println("Most active clans in map-reduce")
+    // parallel
+    Games.iterate(_.toList.par.map(ActiveClans.reducer.unit).reduce(ActiveClans.monoid.append)).sortedList.foreach(println)
+    // non-parallel
     Games.iterate(_.foldLeft(ActiveClans.monoid.identity)(ActiveClans.reducer.append)).sortedList.foreach(println)
   }
 
