@@ -1,13 +1,21 @@
 package af
 
-import java.time.ZonedDateTime
-
-import com.actionfps.gameparser.enrichers.JsonGame
-
 /**
   * Created by me on 31/01/2016.
   */
 object RunMe extends App {
+
+  topMaps()
+  println("")
+  mostPlayedUsers()
+  println("")
+  mostPlayedUnregisteredPlayersInPastMonth()
+  println("")
+  mostPlayedCountriesRecently()
+  println("")
+  mostActiveRecentlyUsers()
+  println("")
+  mostActiveClans()
 
   def topMaps(): Unit = {
     println("Top maps:")
@@ -105,16 +113,5 @@ object RunMe extends App {
     }
   }
 
-  topMaps()
-  println("")
-  mostPlayedUsers()
-  println("")
-  mostPlayedUnregisteredPlayersInPastMonth()
-  println("")
-  mostPlayedCountriesRecently()
-  println("")
-  mostActiveRecentlyUsers()
-  println("")
-  mostActiveClans()
 
 }
