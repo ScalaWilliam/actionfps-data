@@ -8,3 +8,5 @@ sbt run
 ```
 
 To develop and understand the code, I recommend [IntelliJ IDEA Community Edition](https://www.jetbrains.com/idea/#chooseYourEdition).
+
+When you clone the project, in IntelliJ do File -> New -> Project from Existing Sources... and select the "build.sbt" file in this directory.
