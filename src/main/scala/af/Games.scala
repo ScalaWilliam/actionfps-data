@@ -36,7 +36,7 @@ object Games {
   object InPastMonth {
     def iterate[T](f: Iterator[JsonGame] => T): T = {
       val monthAgo = ZonedDateTime.now().minusMonths(1)
-      Games.iterate{ games =>
+      Games.iterate { games =>
         f {
           games
             .filter(_.endTime.isAfter(monthAgo))

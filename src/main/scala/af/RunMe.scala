@@ -1,117 +1,49 @@
 package af
 
+import af.computations._
+
 /**
   * Created by me on 31/01/2016.
+  *
+  * There are a bunch of different ways to perform these computations:
+  *
+  * 1. Fully - here we load in all the data at once and process that.
+  * Advantages:
+  * * Simple to design and reason about
+  * Disadvantages:
+  * * May be slow to recompute for every new game coming in
+  *
+  * 2. Incrementally - here we start from an initial state and introduce a new item to it
+  * Advantages:
+  * * Can be used in streaming and don't have to recompute from scratch
+  * Disadvantages:
+  * * Cannot be parallelised
+  * * More difficult to design
+  *
+  * 3. Monoidically with a reducer:
+  * Advantages:
+  * * Can be parallelised and streamed
+  * Disadvantages:
+  * * More difficult to design and more code to write
+  *
   */
 object RunMe extends App {
 
-  topMaps()
-  println("")
-  mostPlayedUsers()
-  println("")
-  mostPlayedUnregisteredPlayersInPastMonth()
-  println("")
-  mostPlayedCountriesRecently()
-  println("")
-  mostActiveRecentlyUsers()
-  println("")
-  mostActiveClans()
+  TopMaps.fully()
+  TopMaps.incrementally()
 
-  def topMaps(): Unit = {
-    println("Top maps:")
-    Games.iterate { games =>
-      games
-        .map(_.map)
-        .toList
-        .groupBy(identity)
-        .mapValues(_.length)
-        .toList
-        .sortBy(_._2)
-        .takeRight(20)
-        .foreach(println)
-    }
-  }
+  MostPlayedUsers.fully()
+  MostPlayedUsers.incrementally()
 
-  def mostPlayedUsers(): Unit = {
-    println("Most played users:")
-    Games.iterate { gms =>
-      gms
-        .flatMap(_.teams)
-        .flatMap(_.players)
-        .flatMap(_.user)
-        .toList
-        .groupBy(identity)
-        .mapValues(_.length)
-        .toList
-        .sortBy(_._2)
-        .takeRight(20)
-        .foreach(println)
-    }
-  }
+  MostPlayedUnregisteredPlayers.fully()
+  MostPlayedUnregisteredPlayers.incrementally()
 
-  def mostPlayedUnregisteredPlayersInPastMonth(): Unit = {
-    println("Most played recent unregistered players")
-    Games.InPastMonth.iterate { gms =>
-      gms
-        .flatMap(_.teams)
-        .flatMap(_.players)
-        .filter(_.user.isEmpty)
-        .map(_.name)
-        .toList
-        .groupBy(identity)
-        .mapValues(_.length)
-        .toList
-        .sortBy(_._2)
-        .takeRight(20)
-        .foreach(println)
-    }
-  }
+  ActiveClansComputation.fully()
+  ActiveClansComputation.incrementally()
+  ActiveClansComputation.mapReducely()
 
-  def mostPlayedCountriesRecently(): Unit = {
-    println("Most played countries recently")
-    Games.InPastMonth.iterate { gms =>
-      gms
-        .flatMap(_.teams)
-        .flatMap(_.players)
-        .flatMap(_.countryName)
-        .toList
-        .groupBy(identity)
-        .mapValues(_.length)
-        .toList
-        .sortBy(_._2)
-        .takeRight(20)
-        .foreach(println)
-    }
-  }
-
-  def mostActiveRecentlyUsers(): Unit = {
-    println("Most active users recently")
-    Games.InPastMonth.iterate { gms =>
-      gms
-        .flatMap(_.teams)
-        .flatMap(_.players)
-        .flatMap(_.user)
-        .toList.groupBy(identity)
-        .mapValues(_.length)
-        .toList
-        .sortBy(_._2)
-        .takeRight(20)
-        .foreach(println)
-    }
-  }
-
-  def mostActiveClans(): Unit = {
-    println("Most active clans recently (players)")
-    Games.InPastMonth.iterate { gms =>
-      gms
-        .flatMap(_.teams)
-        .flatMap(_.players)
-        .flatMap(_.clan)
-        .toList.groupBy(identity).mapValues(_.length).toList.sortBy(_._2)
-        .takeRight(20)
-        .foreach(println)
-    }
-  }
-
+  MostPlayedCountries.fully()
+  MostPlayedCountries.incrementally()
 
 }
+
