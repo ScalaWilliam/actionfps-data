@@ -15,7 +15,7 @@ run in Compile <<= (run in Compile).dependsOn(downloadAll)
 lazy val downloadAll = taskKey[Unit]("Download the games")
 
 downloadAll := {
-  if ( !file("all.tsv").exists() ) {
-    IO.download(url("https://actionfps.com/all/"), file("all.tsv"))
+  if ( !file("all.txt").exists() ) {
+    IO.download(url("https://actionfps.com/all/games.txt"), file("all.txt"))
   }
 }
