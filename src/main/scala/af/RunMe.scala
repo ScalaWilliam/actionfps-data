@@ -92,6 +92,19 @@ object RunMe extends App {
     }
   }
 
+  def mostActiveClans(): Unit = {
+    println("Most active clans recently (players)")
+    Games.InPastMonth.iterate { gms =>
+      gms
+        .flatMap(_.teams)
+        .flatMap(_.players)
+        .flatMap(_.clan)
+        .toList.groupBy(identity).mapValues(_.length).toList.sortBy(_._2)
+        .takeRight(20)
+        .foreach(println)
+    }
+  }
+
   topMaps()
   println("")
   mostPlayedUsers()
@@ -101,5 +114,7 @@ object RunMe extends App {
   mostPlayedCountriesRecently()
   println("")
   mostActiveRecentlyUsers()
+  println("")
+  mostActiveClans()
 
 }
