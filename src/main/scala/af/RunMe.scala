@@ -76,6 +76,22 @@ object RunMe extends App {
     }
   }
 
+  def mostActiveRecentlyUsers(): Unit = {
+    println("Most active users recently")
+    Games.InPastMonth.iterate { gms =>
+      gms
+        .flatMap(_.teams)
+        .flatMap(_.players)
+        .flatMap(_.user)
+        .toList.groupBy(identity)
+        .mapValues(_.length)
+        .toList
+        .sortBy(_._2)
+        .takeRight(20)
+        .foreach(println)
+    }
+  }
+
   topMaps()
   println("")
   mostPlayedUsers()
@@ -83,5 +99,7 @@ object RunMe extends App {
   mostPlayedUnregisteredPlayersInPastMonth()
   println("")
   mostPlayedCountriesRecently()
+  println("")
+  mostActiveRecentlyUsers()
 
 }
